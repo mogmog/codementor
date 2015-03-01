@@ -2,7 +2,7 @@ from app import db
 from sqlalchemy.dialects.postgresql import JSON
 
 class Result(db.Model):
-    __tablename__ = 'results'
+    __tablename__ = 'search'
 
     id = db.Column(db.Integer, primary_key=True)
     url = db.Column(db.String())

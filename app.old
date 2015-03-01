@@ -1,0 +1,39 @@
+from flask import Flask, render_template, request, jsonify
+from flask.ext.sqlalchemy import SQLAlchemy
+from collections import Counter
+from rq import Queue
+from rq.job import Job
+from worker import conn
+import operator
+import os
+import re
+import json
+import os
+import redis
+import matcher
+import models
+from rq import Worker, Queue, Connection
+from datetime import datetime
+from redis import Redis
+from rq_scheduler import Scheduler
+
+app = Flask(__name__)
+app.config.from_object(os.environ['APP_SETTINGS'])
+db = SQLAlchemy(app)
+q = Queue(connection=conn)
+scheduler = Scheduler(connection=Redis()) # Get a scheduler for the "default" queue
+
+if __name__ == '__main__':
+
+ scheduler.schedule(
+     scheduled_time=datetime.now(),
+     func=matcher.Matcher().start,
+     args=[],
+     interval=60,
+     repeat=10
+ )
+
+app.run()
+
+
+

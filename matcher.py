@@ -5,9 +5,7 @@ import os
 class Matcher:
 
  def start(self):
-    print(1)
-    print (os.environ['DATABASE_URL'])
-    result = models.Result(url="codementor.io")
+    result = models.Result(url="working")
     db.session.add(result)
     db.session.commit()
     return result.id

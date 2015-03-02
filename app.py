@@ -4,7 +4,6 @@ from redis import Redis
 from rq_scheduler import Scheduler
 from datetime import datetime
 
-import matcher
 import os
 
 app = Flask(__name__)
@@ -22,14 +21,25 @@ def hello():
 def hello_name(name):
     return "Hello {}!".format(name)
 
+def matcherrr():
+     print(55)
+     return 1
 
 if __name__ == '__main__':
+
+    list_of_job_instances = scheduler.get_jobs()
+
+    print (list_of_job_instances)
+    for job in list_of_job_instances:
+     scheduler.cancel(job)
+
+    scheduler.schedule(
+     scheduled_time=datetime.now(),
+     func= matcherrr,
+     args=[],
+     interval=60,
+     repeat=10
+    )
+
     app.run()
 
-scheduler.schedule(
- scheduled_time=datetime.now(),
- func=matcher.Matcher().start,
- args=[],
- interval=60,
- repeat=10
-)
